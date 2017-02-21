@@ -197,10 +197,14 @@ public:
           continue;
         }
         StringRef Code = Buffer.get()->getBuffer();
-        format::FormatStyle Style = format::getStyle("file", File, FormatStyle);
+        auto Style = format::getStyle("file", File, FormatStyle);
+        if (!Style) {
+          llvm::errs() << llvm::toString(Style.takeError()) << "\n";
+          continue;
+        }
         llvm::Expected<Replacements> CleanReplacements =
             format::cleanupAroundReplacements(Code, FileAndReplacements.second,
-                                              Style);
+                                              *Style);
         if (!CleanReplacements) {
           llvm::errs() << llvm::toString(CleanReplacements.takeError()) << "\n";
           continue;
@@ -487,7 +491,7 @@ runClangTidy(std::unique_ptr<ClangTidyOptionsProvider> OptionsProvider,
 
   // Remove plugins arguments.
   ArgumentsAdjuster PluginArgumentsRemover =
-      [&Context](const CommandLineArguments &Args, StringRef Filename) {
+      [](const CommandLineArguments &Args, StringRef Filename) {
         CommandLineArguments AdjustedArgs;
         for (size_t I = 0, E = Args.size(); I < E; ++I) {
           if (I + 4 < Args.size() && Args[I] == "-Xclang" &&
