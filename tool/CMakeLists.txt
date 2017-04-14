@@ -11,8 +11,9 @@ add_dependencies(clang-tidy
 target_link_libraries(clang-tidy
   clangAST
   clangASTMatchers
-  clangBasic
-  clangTidy
+	clangBasic
+	clangTidy
+	clangTidyAurzeScriptModule
   clangTidyBoostModule
   clangTidyCERTModule
   clangTidyCppCoreGuidelinesModule

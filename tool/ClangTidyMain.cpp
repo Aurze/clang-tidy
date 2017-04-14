@@ -443,6 +443,11 @@ extern volatile int CERTModuleAnchorSource;
 static int LLVM_ATTRIBUTE_UNUSED CERTModuleAnchorDestination =
     CERTModuleAnchorSource;
 
+// This anchor is used to force the linker to link the AurzeScriptModule.
+extern volatile int AurzeScriptModuleAnchorSource;
+static int LLVM_ATTRIBUTE_UNUSED AurzeScriptModuleAnchorDestination =
+		AurzeScriptModuleAnchorSource;
+
 // This anchor is used to force the linker to link the BoostModule.
 extern volatile int BoostModuleAnchorSource;
 static int LLVM_ATTRIBUTE_UNUSED BoostModuleAnchorDestination =

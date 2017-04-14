@@ -1,0 +1,10 @@
+BUILD_PATH=~/devel/llvm/build
+PATH_TEST=~/devel/aurzeUnitTest/in.cpp
+
+cd $BUILD_PATH
+cmake -G "Unix Makefiles" ../llvm
+make -j 8
+
+cd $BUILD_PATH
+cd /bin
+./clang-tidy $PATH_TEST "-checks=-*,aurze*"
